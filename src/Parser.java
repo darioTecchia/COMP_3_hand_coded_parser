@@ -7,14 +7,16 @@
 
 import java.util.*;
 
-class RecDesParser {
+class Parser {
 	static int ptr;
   static char[] input;
   
   Lexer lexicalAnalyzer = new Lexer();
-  String filePath = args[0];
-	
+  static String filePath;
+
 	public static void main(String args[]) {
+		filePath = args[0];
+
 		System.out.println("Enter the input string:");
 		String s = new Scanner(System.in).nextLine();
 		input = s.toCharArray();
