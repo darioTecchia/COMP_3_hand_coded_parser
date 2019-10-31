@@ -3,6 +3,7 @@
 /* JFlex example: part of Java language lexer specification */
 
 import java_cup.runtime.Symbol;
+
 /**
 * This class is a simple example lexer.
 */

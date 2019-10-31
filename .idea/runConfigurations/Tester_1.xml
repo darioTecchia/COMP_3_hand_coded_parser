@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Tester_1" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="Tester" />
+    <option name="MAIN_CLASS_NAME" value="Parser" />
     <module name="tecchia-sansone_es3_hcp" />
     <option name="PROGRAM_PARAMETERS" value="test_files/input1.txt" />
     <method v="2">
