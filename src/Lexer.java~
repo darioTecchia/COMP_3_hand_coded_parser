@@ -3,13 +3,14 @@
 /* JFlex example: part of Java language lexer specification */
 
 import java_cup.runtime.Symbol;
+
 /**
 * This class is a simple example lexer.
 */
 
 
 
-class Lexer {
+class Lexer implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -665,13 +666,25 @@ class Lexer {
 
 
   /**
+   * Contains user EOF-code, which will be executed exactly once,
+   * when the end of file is reached
+   */
+  private void zzDoEOF() throws java.io.IOException {
+    if (!zzEOFDone) {
+      zzEOFDone = true;
+      yyclose();
+    }
+  }
+
+
+  /**
    * Resumes scanning until the next regular expression is matched,
    * the end of input is encountered or an I/O-Error occurs.
    *
    * @return      the next token
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
-  public Yytoken yylex() throws java.io.IOException {
+  public java_cup.runtime.Symbol next_token() throws java.io.IOException {
     int zzInput;
     int zzAction;
 
@@ -807,6 +820,7 @@ class Lexer {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
+            zzDoEOF();
               {
                 return generateToken(Token.EOF);
               }

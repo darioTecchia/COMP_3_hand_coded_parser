@@ -73,6 +73,7 @@ FloatLiteral = (0 | [1-9][0-9]*)\.[0-9]+
   "then" { return generateToken(Token.THEN); }
   "else" { return generateToken(Token.ELSE); }
   "while" { return generateToken(Token.WHILE); }
+  "do" { return generateToken(Token.DO); }
 
   /* separators */
   "(" { return generateToken(Token.LPAR); }
