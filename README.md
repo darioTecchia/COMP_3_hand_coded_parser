@@ -118,7 +118,7 @@ Rimuovo la fattorizzazione:
   Term -> NUMBER
 ```
 
-Fattorizzo:
+Riassumo i caratteri:
 ```
   P -> S Pi
   Pi -> ; S Pi
