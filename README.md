@@ -120,17 +120,17 @@ Rimuovo la fattorizzazione:
 
 Riassumo i caratteri:
 ```
-  P -> S Pi
-  Pi -> ; S Pi
-  Pi -> eps
-  S -> if E then S else S
-  S -> ID assign E
-  S -> while E do S
-  E -> T Ei
-  Ei -> relop T
-  Ei -> eps
-  T -> id
-  T -> number
+P -> S Pi
+Pi -> ; S Pi
+Pi -> eps
+S -> if E then S else S
+S -> id assign E
+S -> while E do S
+E -> T Ei
+Ei -> relop T
+Ei -> eps
+T -> id
+T -> number
 ```
 
 ## Notes
