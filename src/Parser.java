@@ -158,7 +158,7 @@ class Parser {
 		int fallback = ptr;
 		boolean result = false;
 
-		if(getSymbol(ptr++).sym >= 7 || getSymbol(ptr++).sym <= 13) {
+		if(getSymbol(ptr++).sym >= 7 || getSymbol(ptr).sym <= 13) {
 			if(Term()) {
 				result = true;
 			} else {
@@ -178,7 +178,7 @@ class Parser {
 
 		if(getSymbol(ptr++).sym == Token.ID) {
 			result = true;
-		} else if(getSymbol(ptr++).sym == Token.INT || getSymbol(ptr++).sym == Token.FLOAT) {
+		} else if(getSymbol(ptr++).sym == Token.INT || getSymbol(ptr).sym == Token.FLOAT) {
 			result = true;
 		}
 
