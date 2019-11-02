@@ -70,19 +70,17 @@ G = ( \
 &ensp; N = {Program, Stmt, Expr, Term}, \
 &ensp; T = {ID, IF, THEN, ELSE, RELOP, NUMBER, SEMI, ASSIGN, WHILE, DO}, \
 &ensp; S = Program \
-&ensp; P =
-
-```
-  Program -> Program ; Stmt
-  Program -> Stmt
-  Stmt -> IF Expr THEN Stmt ELSE Stmt
-  Stmt -> ID ASSIGN Expr
-  Stmt -> WHILE Expr DO Stmt
-  Expr -> Term RELOP Term
-  Expr -> Term
-  Term -> ID
-  Term -> NUMBER
-```
+&ensp; P = { \
+&ensp;&ensp;&ensp;Program -> Program ; Stmt \
+&ensp;&ensp;&ensp;Program -> Stmt \
+&ensp;&ensp;&ensp;Stmt -> IF Expr THEN Stmt ELSE Stmt \
+&ensp;&ensp;&ensp;Stmt -> ID ASSIGN Expr \
+&ensp;&ensp;&ensp;Stmt -> WHILE Expr DO Stmt \
+&ensp;&ensp;&ensp;Expr -> Term RELOP Term \
+&ensp;&ensp;&ensp;Expr -> Term \
+&ensp;&ensp;&ensp;Term -> ID \
+&ensp;&ensp;&ensp;Term -> NUMBER \
+&ensp;} \
 )
 
 The initial grammar is not suitable for top down parsing, removing recursion:
