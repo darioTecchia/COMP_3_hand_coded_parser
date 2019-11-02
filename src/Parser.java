@@ -5,7 +5,8 @@
 	
 	Grammar:
 
-	Program 	-> Stmt FProgram
+  G         -> Program EOF
+	Program 	-> Stmt FProgram EOF
 	FProgram 	-> SEMI Stmt FProgram
 	FProgram 	-> eps
 	Stmt 			-> IF Expr THEN Stmt ELSE Stmt
@@ -15,7 +16,8 @@
 	FExpr 		-> RELOP Term
 	FExpr 		-> eps
 	Term 			-> ID
-	Term 			-> NUMBER
+	Term 			-> INT
+	Term      -> FLOAT
 */
 
 import java.io.IOException;
@@ -37,27 +39,46 @@ class Parser {
 
 		ptr = 0;
 
-		boolean isValid = Program();
+		boolean isValid = G();
 
-		if ((isValid) & (ptr == tokensFlow.size())) {
+		if ((isValid) & (ptr+1 == tokensFlow.size())) {
 			System.out.println("The input string is valid.");
 		} else {
 			System.out.println("The input string is invalid.");
 		}
 	}
 
-	// Program 	-> Stmt FProgram
+	// G -> Program EOF
+	static  boolean G() {
+	  int fallback = ptr;
+	  boolean result = false;
+
+	  if(Program()) {
+      if(getSymbol(ptr).sym == Token.EOF) {
+        result = true;
+      } else {
+        ptr = fallback;
+      }
+    }
+
+	  return result;
+  }
+
+	// Program 	-> Stmt FProgram EOF
 	static boolean Program() {
 		int fallback = ptr;
 		boolean result = false;
 
 		if(Stmt()) {
-			if(FProgram()) {
-				result = true;
-			} else {
-				ptr = fallback;
-			}
+		  if(FProgram()) {
+        if(getSymbol(ptr).sym == Token.EOF) {
+          result = true;
+        } else {
+          ptr = fallback;
+        }
+      }
 		}
+
 		return result;
 	}
 	
@@ -67,7 +88,8 @@ class Parser {
 		int fallback = ptr;
 		boolean result = false;
 
-		if(getSymbol(ptr++).sym == Token.SEMI) {
+		if(getSymbol(ptr).sym == Token.SEMI) {
+			ptr++;
 			if(Stmt()) {
 				if(FProgram()) {
 					result = true;
@@ -90,11 +112,14 @@ class Parser {
 		int fallback = ptr;
 		boolean result = false;
 
-		if(getSymbol(ptr++).sym == Token.IF) {
+		if(getSymbol(ptr).sym == Token.IF) {
+			ptr++;
 			if(Expr()) {
-				if(getSymbol(ptr++).sym == Token.THEN) {
+				if(getSymbol(ptr).sym == Token.THEN) {
+					ptr++;
 					if(Stmt()) {
-						if(getSymbol(ptr++).sym == Token.ELSE) {
+						if(getSymbol(ptr).sym == Token.ELSE) {
+							ptr++;
 							if(Stmt()) {
 								result = true;
 							}
@@ -110,8 +135,10 @@ class Parser {
 			} else {
 				ptr = fallback;
 			}
-		} else if(getSymbol(ptr++).sym == Token.ID) {
-			if(getSymbol(ptr++).sym == Token.ASSIGN) {
+		} else if(getSymbol(ptr).sym == Token.ID) {
+			ptr++;
+			if(getSymbol(ptr).sym == Token.ASSIGN) {
+				ptr++;
 				if(Expr()) {
 					result = true;
 				} else {
@@ -120,9 +147,11 @@ class Parser {
 			} else {
 				ptr = fallback;
 			}
-		} else if(getSymbol(ptr++).sym == Token.WHILE) {
+		} else if(getSymbol(ptr).sym == Token.WHILE) {
+			ptr++;
 			if(Expr()) {
-				if(getSymbol(ptr++).sym == Token.DO) {
+				if(getSymbol(ptr).sym == Token.DO) {
+					ptr++;
 					if(Stmt()) {
 						result = true;
 					}
@@ -158,7 +187,8 @@ class Parser {
 		int fallback = ptr;
 		boolean result = false;
 
-		if(getSymbol(ptr++).sym >= 7 || getSymbol(ptr).sym <= 13) {
+		if(getSymbol(ptr).sym >= 7 && getSymbol(ptr).sym <= 13) {
+			ptr++;
 			if(Term()) {
 				result = true;
 			} else {
@@ -176,10 +206,11 @@ class Parser {
 		int fallback = ptr;
 		boolean result = false;
 
-		if(getSymbol(ptr++).sym == Token.ID) {
+		if(getSymbol(ptr).sym == Token.ID
+        || getSymbol(ptr).sym == Token.INT
+        || getSymbol(ptr).sym == Token.FLOAT) {
 			result = true;
-		} else if(getSymbol(ptr++).sym == Token.INT || getSymbol(ptr).sym == Token.FLOAT) {
-			result = true;
+			ptr++;
 		}
 
 		return result;

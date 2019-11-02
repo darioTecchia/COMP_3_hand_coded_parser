@@ -64,13 +64,11 @@ JFlex Coded Lexer
 
 ## Grammar Specification
 
-Data la seguente grammatica
-
-Dove i tokens sono per lo più quelli definiti nella esercitazione 1 precedente.
+Tokens are mostly those defined in exercise 1.
 
 G = ( \
 &ensp; N = {Program, Stmt, Expr, Term}, \
-&ensp; T = {ID, IF, THEN, ELSE, RELOP, NUMBER, ;, ASSIGN, WHILE, DO}, \
+&ensp; T = {ID, IF, THEN, ELSE, RELOP, NUMBER, SEMI, ASSIGN, WHILE, DO}, \
 &ensp; S = Program \
 &ensp; P =
 
@@ -87,7 +85,7 @@ G = ( \
 ```
 )
 
-La grammatica iniziale non è adatta al top down parsing, rimuovo la ricorsione:
+The initial grammar is not suitable for top down parsing, removing recursion:
 
 ```
   Program -> Stmt FProgram
@@ -102,7 +100,7 @@ La grammatica iniziale non è adatta al top down parsing, rimuovo la ricorsione:
   Term -> NUMBER
 ```
 
-Rimuovo la fattorizzazione:
+Removing factorization:
 
 ```
   Program -> Stmt FProgram
@@ -118,20 +116,43 @@ Rimuovo la fattorizzazione:
   Term -> NUMBER
 ```
 
-Riassumo i caratteri:
+Using the increased production G for better EOF handling:
 ```
-P -> S Pi
-Pi -> ; S Pi
-Pi -> eps
-S -> if E then S else S
-S -> id assign E
-S -> while E do S
-E -> T Ei
-Ei -> relop T
-Ei -> eps
-T -> id
-T -> number
+  G -> Program EOF
+  Program -> Stmt FProgram
+  FProgram -> ; Stmt FProgram
+  FProgram -> eps
+  Stmt -> IF Expr THEN Stmt ELSE Stmt
+  Stmt -> ID ASSIGN Expr
+  Stmt -> WHILE Expr DO Stmt
+  Expr -> Term FExpr
+  FExpr -> relop Term
+  FExpr -> eps
+  Term -> ID
+  Term -> NUMBER
 ```
 
+The final implemented grammar are the following:
+```
+  G -> Program EOF
+  Program -> Stmt FProgram
+  FProgram -> SEMI Stmt FProgram
+  FProgram -> eps
+  Stmt -> IF Expr THEN Stmt ELSE Stmt
+  Stmt -> ID ASSIGN Expr
+  Stmt -> WHILE Expr DO Stmt
+  Expr -> Term FExpr
+  FExpr -> RELOP Term
+  FExpr -> eps
+  Term -> ID
+  Term -> INT
+  Term -> FLOAT
+```
+
+
+
 ## Notes
-The requested *sym* class is named Token
+ - The requested *sym* class is named Token;
+ - The grammar's production have been increased for a better *EOF* handling;
+ - *RELOP* values are explained in the *Lexical Specification* table, range 7-13 in     `Token.TOKEN` class;
+ - ';' is *SEMI*.
