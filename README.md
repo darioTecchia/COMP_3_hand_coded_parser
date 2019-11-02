@@ -131,22 +131,28 @@ Using the increased production G for better EOF handling:
 ```
 
 The final implemented grammar are the following:
-```
-  G -> Program EOF
-  Program -> Stmt FProgram
-  FProgram -> SEMI Stmt FProgram
-  FProgram -> eps
-  Stmt -> IF Expr THEN Stmt ELSE Stmt
-  Stmt -> ID ASSIGN Expr
-  Stmt -> WHILE Expr DO Stmt
-  Expr -> Term FExpr
-  FExpr -> RELOP Term
-  FExpr -> eps
-  Term -> ID
-  Term -> INT
-  Term -> FLOAT
-```
 
+
+G = ( \
+&ensp; N = `{ G, FProgram, Program, Stmt, Expr, FExpr, Term }`, \
+&ensp; T = `{ ID, IF, THEN, ELSE, RELOP, NUMBER, SEMI, ASSIGN, WHILE, DO, EOF }`, \
+&ensp; S = `G` \
+&ensp; P = `{` \
+&ensp;&ensp;&ensp;`G -> Program EOF` \
+&ensp;&ensp;&ensp;`Program -> Stmt FProgram` \
+&ensp;&ensp;&ensp;`FProgram -> SEMI Stmt FProgram` \
+&ensp;&ensp;&ensp;`FProgram -> eps` \ 
+&ensp;&ensp;&ensp;`Stmt -> IF Expr THEN Stmt ELSE Stmt` \
+&ensp;&ensp;&ensp;`Stmt -> ID ASSIGN Expr` \
+&ensp;&ensp;&ensp;`Stmt -> WHILE Expr DO Stmt` \
+&ensp;&ensp;&ensp;`Expr -> Term FExpr` \
+&ensp;&ensp;&ensp;`FExpr -> RELOP Term` \
+&ensp;&ensp;&ensp;`FExpr -> eps` \
+&ensp;&ensp;&ensp;`Term -> ID` \
+&ensp;&ensp;&ensp;`Term -> INT` \
+&ensp;&ensp;&ensp;`Term -> FLOAT` \
+&ensp;`}` \
+)
 
 
 ## Notes
