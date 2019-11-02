@@ -2,8 +2,8 @@
 
 Programming language definited for the Compiler course from University.
 
-### Project Part 2
-JFlex Coded Lexer
+### Project Part 3
+Hand Coded Parser
 
 ## Regular Definition
 
