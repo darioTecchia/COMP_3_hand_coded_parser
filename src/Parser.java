@@ -223,7 +223,9 @@ class Parser {
 		} catch (IndexOutOfBoundsException ioobe) {
 			try {
 				tokensFlow.add(lexicalAnalyzer.next_token());
-			} catch (IOException ioe) {}
+			} catch (RuntimeException err) {
+				System.out.println(err);
+			}
 		} finally {
 			s = tokensFlow.get(index);
 			return s;

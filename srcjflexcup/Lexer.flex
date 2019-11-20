@@ -60,9 +60,6 @@ IntegerLiteral = 0 | [1-9][0-9]*
 FloatLiteral = (0 | [1-9][0-9]*)\.[0-9]+
 
 
-%state STRING
-
-
 %%
 
 
@@ -99,9 +96,6 @@ FloatLiteral = (0 | [1-9][0-9]*)\.[0-9]+
   {IntegerLiteral}   { return generateToken(Token.INT, Integer.parseInt(yytext())); }
   {FloatLiteral}   { return generateToken(Token.FLOAT, Double.parseDouble(yytext())); }
 
-  // WHEN " IS REACHED IT'S STARTING A STRING
-  \" { string.setLength(0); yybegin(STRING); }
-
   /* comments */
   {Comment} {/* ignore */}
 
@@ -113,5 +107,5 @@ FloatLiteral = (0 | [1-9][0-9]*)\.[0-9]+
 
 /* error fallback */
 [^] { 
-  throw new Error("Illegal character <"+yytext()+"> on L: " + yyline + " C: " + yycolumn); 
+  throw new RuntimeException("Error:(" + yyline + ":" + yycolumn + ") Cannot resolve symbol '"+yytext()+"'"); 
 }

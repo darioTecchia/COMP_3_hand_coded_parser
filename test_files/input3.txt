@@ -1,1 +1,1 @@
-if a then b = c;
+if a then a <-- b else b <-- a

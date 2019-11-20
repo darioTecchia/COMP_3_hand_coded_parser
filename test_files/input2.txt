@@ -1,1 +1,1 @@
-b <-- 2;a <-- 2112
+while a < b do if a <> b then a <-- b else

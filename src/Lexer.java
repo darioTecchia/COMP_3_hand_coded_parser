@@ -829,7 +829,7 @@ class Lexer implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { throw new Error("Illegal character <"+yytext()+"> on L: " + yyline + " C: " + yycolumn);
+            { throw new RuntimeException("Error:(" + yyline + ":" + yycolumn + ") Cannot resolve symbol '"+yytext()+"'");
             } 
             // fall through
           case 25: break;
